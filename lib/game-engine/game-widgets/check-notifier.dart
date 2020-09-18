@@ -11,7 +11,7 @@ class CheckNotifier extends StatelessWidget {
               gameProvider.isCheck;
 
       return Padding(
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 0.0),
+        padding: EdgeInsets.only(bottom: 10.0),
         child: Text(
           showCheckMessage ? "CHECK" : "",
           style: TextStyle(
