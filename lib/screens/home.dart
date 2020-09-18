@@ -1,6 +1,8 @@
 import 'package:Chess/constants/config.dart';
+import 'package:Chess/dialogs/choose-player.dart';
 import 'package:Chess/game-engine/game-provider.dart';
 import 'package:Chess/dialogs/start-new-game-prompt.dart';
+import 'package:Chess/game-engine/utils/player.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -60,6 +62,10 @@ class HomePage extends StatelessWidget {
                               onPressed: () async {
                                 if (gameProvider
                                     .boardState.movesHistory.isEmpty) {
+                                  await showDialog<Player>(
+                                      context: context,
+                                      child: ChoosePlayerDialog(),
+                                      barrierDismissible: true);
                                   Navigator.pushNamed(context, '/game');
                                 } else if (await showDialog<bool>(
                                   context: context,
