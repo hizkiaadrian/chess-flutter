@@ -4,5 +4,6 @@ import 'package:flutter/material.dart';
 
 Image getSprite(Player player, PieceName pieceName) {
   return Image.asset(
-      'assets/${player.asString().toLowerCase()}_${pieceName.asString().toLowerCase()}.png');
+    'assets/${player.asString().toLowerCase()}_${pieceName.asString().toLowerCase()}.png',
+  );
 }

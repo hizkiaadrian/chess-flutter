@@ -1,3 +1,4 @@
+import 'package:Chess/constants/config.dart';
 import 'package:Chess/game-engine/game-widgets/board.dart';
 import 'package:Chess/game-engine/game-widgets/check-notifier.dart';
 import 'package:Chess/game-engine/game-widgets/turn-notifier.dart';
@@ -6,40 +7,34 @@ import 'package:flutter/material.dart';
 class GameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(20.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          gameView(),
-          actionButtons(context),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(appTitle),
+        centerTitle: true,
+        leading: BackButton(
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: gameView(),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.settings,
+        ),
+        onPressed: () => print("Settings"),
       ),
     );
   }
 }
 
-Expanded gameView() => Expanded(
+Container gameView() => Container(
+      padding: EdgeInsets.all(20.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          TurnNotifier(),
-          ChessBoard(),
+          Expanded(child: ChessBoard()),
           CheckNotifier(),
+          TurnNotifier(),
         ],
       ),
-    );
-
-Row actionButtons(BuildContext context) => Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        FloatingActionButton(
-          child: Icon(
-            Icons.arrow_back,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ],
     );

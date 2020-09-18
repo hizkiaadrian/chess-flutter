@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-final appTitle = "Chess Mobile";
-final double squareSize = 40.0;
+const appTitle = "Chess Mobile";
+const double squareSize = 40.0;
 
 class ColorPalette {
   final Color whiteSquare;

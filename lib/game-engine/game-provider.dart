@@ -25,8 +25,11 @@ class GameProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<Piece> _capturedPieces = [];
-  List<Piece> get capturedPieces => _capturedPieces;
+  Map<Player, List<Piece>> _capturedPieces = {
+    Player.White: [],
+    Player.Black: []
+  };
+  Map<Player, List<Piece>> get capturedPieces => _capturedPieces;
 
   Piece _selectedPiece;
   Piece get selectedPiece => _selectedPiece;
@@ -99,7 +102,7 @@ class GameProvider with ChangeNotifier {
   }
 
   void capturePiece(Piece piece) {
-    _capturedPieces.add(piece);
+    _capturedPieces[piece.player].add(piece);
     _boardState.piecePosition[piece.getCurrentPosition(_boardState)] = null;
   }
 
@@ -146,16 +149,16 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  void restartGame() {
-    _boardState.piecePosition = generateStartingBoard();
-    _boardState.movesHistory.removeAll();
-    _playerTurn = Player.White;
-    _capturedPieces.removeAll();
-    _selectedPiece = null;
-    _availableMoves.removeAll();
-    _isCheck = false;
-    notifyListeners();
-  }
+  void restartGame() => {
+        _boardState.piecePosition = generateStartingBoard(),
+        _boardState.movesHistory.removeAll(),
+        _playerTurn = Player.White,
+        _capturedPieces.values.forEach((list) => list.removeAll()),
+        _selectedPiece = null,
+        _availableMoves.removeAll(),
+        _isCheck = false,
+        notifyListeners(),
+      };
 }
 
 extension ListCleaner on List {
