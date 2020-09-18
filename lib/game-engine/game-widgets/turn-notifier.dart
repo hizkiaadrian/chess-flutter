@@ -6,16 +6,20 @@ import 'package:Chess/game-engine/utils/player.dart';
 class TurnNotifier extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<GameProvider>(
-      builder: (context, gameProvider, child) => Padding(
-        padding: EdgeInsets.only(bottom: 20.0),
+    return Consumer<GameProvider>(builder: (context, gameProvider, child) {
+      String whoseTurn = gameProvider.playerTurn == gameProvider.playerColor
+          ? "Your"
+          : "Their";
+
+      return Padding(
+        padding: EdgeInsets.only(bottom: 10.0),
         child: Text(
-          "Player ${gameProvider.playerTurn.asString()}'s turn",
+          "$whoseTurn turn",
           style: TextStyle(
             fontSize: 20.0,
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

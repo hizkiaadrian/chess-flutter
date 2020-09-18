@@ -15,7 +15,18 @@ class GameScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: gameView(),
+      body: Container(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(child: ChessBoard()),
+            CheckNotifier(),
+            TurnNotifier(),
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(
           Icons.settings,
@@ -25,16 +36,3 @@ class GameScreen extends StatelessWidget {
     );
   }
 }
-
-Container gameView() => Container(
-      padding: EdgeInsets.all(20.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(child: ChessBoard()),
-          CheckNotifier(),
-          TurnNotifier(),
-        ],
-      ),
-    );
