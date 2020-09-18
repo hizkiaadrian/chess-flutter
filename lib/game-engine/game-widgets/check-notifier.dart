@@ -9,7 +9,7 @@ class CheckNotifier extends StatelessWidget {
       builder: (context, gameProvider, child) => Padding(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 0.0),
         child: Text(
-          gameProvider.isCheck ? "CHECK" : "",
+          gameProvider.isCheck ? "CHECK" : "${gameProvider.playerColor}",
           style: TextStyle(
             fontSize: 30.0,
             color: Colors.red,

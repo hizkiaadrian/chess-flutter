@@ -1,5 +1,8 @@
+import 'package:Chess/constants/routes.dart';
+import 'package:Chess/game-engine/game-provider.dart';
 import 'package:Chess/game-engine/utils/player.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ChoosePlayerDialog extends StatefulWidget {
   @override
@@ -15,6 +18,7 @@ class _ChoosePlayerDialogState extends State<ChoosePlayerDialog> {
         child: InkWell(
           onTap: () => setChosenPlayer(player),
           child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 2.5, vertical: 0),
             height: 40.0,
             width: 40.0,
             decoration: BoxDecoration(
@@ -34,18 +38,22 @@ class _ChoosePlayerDialogState extends State<ChoosePlayerDialog> {
       content: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          playerChoice(Player.White),
-          SizedBox(
-            width: 5.0,
-          ),
-          playerChoice(Player.Black)
-        ],
+        children: [playerChoice(Player.White), playerChoice(Player.Black)],
       ),
       actions: [
         FlatButton(
-            onPressed: () => Navigator.pop(context, chosenPlayer),
-            child: Text("Submit"))
+            onPressed: () => Navigator.pop(context), child: Text("Cancel")),
+        Consumer<GameProvider>(
+          builder: (context, gameProvider, child) => FlatButton(
+              onPressed: () => {
+                    gameProvider.playerColor = chosenPlayer,
+                    Navigator.pushReplacementNamed(
+                      context,
+                      Routes.Game,
+                    )
+                  },
+              child: Text("Submit")),
+        )
       ],
     );
   }

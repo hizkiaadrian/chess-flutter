@@ -18,12 +18,19 @@ class GameProvider with ChangeNotifier {
       movesHistory: List<MoveHistory>());
   BoardState get boardState => _boardState;
 
+  Player _playerColor = Player.White;
+  Player get playerColor => _playerColor;
+  set playerColor(Player player) => {
+        _playerColor = player,
+        notifyListeners(),
+      };
+
   Player _playerTurn = Player.White;
   Player get playerTurn => _playerTurn;
-  set playerTurn(Player player) {
-    _playerTurn = player;
-    notifyListeners();
-  }
+  set playerTurn(Player player) => {
+        _playerTurn = player,
+        notifyListeners(),
+      };
 
   Map<Player, List<Piece>> _capturedPieces = {
     Player.White: [],
@@ -33,29 +40,29 @@ class GameProvider with ChangeNotifier {
 
   Piece _selectedPiece;
   Piece get selectedPiece => _selectedPiece;
-  set selectedPiece(Piece piece) {
-    _selectedPiece = piece;
-    availableMoves = _selectedPiece == null
-        ? []
-        : _selectedPiece.getAvailableMoves(_boardState);
-  }
+  set selectedPiece(Piece piece) => {
+        _selectedPiece = piece,
+        availableMoves = _selectedPiece == null
+            ? []
+            : _selectedPiece.getAvailableMoves(_boardState),
+      };
 
   List<SquareNumber> _availableMoves = [];
   List<SquareNumber> get availableMoves => _availableMoves;
-  set availableMoves(List<SquareNumber> moves) {
-    _availableMoves = moves
-        .where((move) => !determineIfCheck(
-            simulateMove(_boardState, _selectedPiece, move), _playerTurn))
-        .toList();
-    notifyListeners();
-  }
+  set availableMoves(List<SquareNumber> moves) => {
+        _availableMoves = moves
+            .where((move) => !determineIfCheck(
+                simulateMove(_boardState, _selectedPiece, move), _playerTurn))
+            .toList(),
+        notifyListeners(),
+      };
 
   bool _isCheck = false;
   bool get isCheck => _isCheck;
-  set isCheck(bool check) {
-    _isCheck = check;
-    notifyListeners();
-  }
+  set isCheck(bool check) => {
+        _isCheck = check,
+        notifyListeners(),
+      };
 
   void movePiece(SquareNumber destination) async {
     isCheck = false;
@@ -152,6 +159,7 @@ class GameProvider with ChangeNotifier {
   void restartGame() => {
         _boardState.piecePosition = generateStartingBoard(),
         _boardState.movesHistory.removeAll(),
+        _playerColor = Player.White,
         _playerTurn = Player.White,
         _capturedPieces.values.forEach((list) => list.removeAll()),
         _selectedPiece = null,
