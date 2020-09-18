@@ -1,27 +1,38 @@
-import 'package:Chess/routes.dart';
-import 'package:Chess/screens/game.dart';
+import 'package:Chess/constants/config.dart';
+import 'package:Chess/constants/routes.dart';
+import 'package:Chess/game-engine/game-provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+final navigatorKey = GlobalKey<NavigatorState>();
+final ColorPalette palette = ColorPalette(
+    whiteSquare: Colors.brown[300],
+    blackSquare: Colors.brown,
+    selectedSquareBorder: Colors.deepPurpleAccent,
+    availableMovesSquareOverlay: Colors.amberAccent.withOpacity(0.5));
 
 void main() => runApp(App());
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Chess Mobile',
-      builder: (context, child) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text('Chess Mobile'),
-            backgroundColor: Colors.primaries[0],
-            elevation: 0,
-            centerTitle: true,
-          ),
-          body: child,
-        );
-      },
-      initialRoute: Routes.Home,
-      routes: Routes.getRoutes(),
+    return ChangeNotifierProvider<GameProvider>(
+      create: (_) => GameProvider(),
+      builder: (context, child) => MaterialApp(
+        title: appTitle,
+        builder: (context, child) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(appTitle),
+              centerTitle: true,
+            ),
+            body: child,
+          );
+        },
+        initialRoute: Routes.Home,
+        routes: Routes.getRoutes(),
+        navigatorKey: navigatorKey,
+      ),
     );
   }
 }

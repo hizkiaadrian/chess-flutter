@@ -1,7 +1,6 @@
-import 'package:Chess/main.dart';
 import 'package:Chess/screens/game.dart';
 import 'package:Chess/screens/home.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Routes {
   static const String Home = '/';
