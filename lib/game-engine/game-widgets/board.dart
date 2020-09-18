@@ -1,34 +1,39 @@
+import 'package:Chess/game-engine/game-provider.dart';
 import 'package:Chess/game-engine/game-widgets/captured-pieces.dart';
 import 'package:Chess/game-engine/game-widgets/square.dart';
 import 'package:Chess/game-engine/utils/player.dart';
 import 'package:Chess/game-engine/utils/square.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ChessBoard extends StatelessWidget {
   final List<int> rows = List<int>.generate(8, (index) => 8 - index);
 
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      CapturedPieces(
-        player: Player.Black,
-      ),
-      ...rows.map((rowNumber) => generateRow(rowNumber)).toList(),
-      CapturedPieces(
-        player: Player.White,
-      ),
-    ]);
+    return Consumer<GameProvider>(builder: (context, gameProvider, child) {
+      return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        CapturedPieces(player: Player.Black),
+        ...renderBoard(gameProvider.playerColor),
+        CapturedPieces(player: Player.White),
+      ]);
+    });
   }
 }
 
-Row generateRow(int rowNumber) {
+List<Row> renderBoard(Player player) {
+  final List<int> rows = List<int>.generate(
+      8, (index) => player == Player.White ? (8 - index) : (index + 1));
+
+  return rows.map((rowNumber) => generateRow(player, rowNumber)).toList();
+}
+
+Row generateRow(Player player, int rowNumber) {
+  List<Square> squares = SquareNumber.values
+      .where((square) => square.getRowNumber() == rowNumber)
+      .map((square) => Square(square: square))
+      .toList();
   return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: SquareNumber.values
-        .where((square) => square.getRowNumber() == rowNumber)
-        .map((square) => Square(
-              square: square,
-            ))
-        .toList(),
-  );
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: player == Player.White ? squares : squares.reversed.toList());
 }
