@@ -1,22 +1,24 @@
+import 'package:Chess/game-engine/game-widgets/captured-pieces.dart';
 import 'package:Chess/game-engine/game-widgets/square.dart';
+import 'package:Chess/game-engine/utils/player.dart';
 import 'package:Chess/game-engine/utils/square.dart';
 import 'package:flutter/material.dart';
 
 class ChessBoard extends StatelessWidget {
+  final List<int> rows = List<int>.generate(8, (index) => 8 - index);
+
   @override
   Widget build(BuildContext context) {
-    return LimitedBox(
-      maxHeight: 360,
-      child: renderBoard(),
-    );
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      CapturedPieces(
+        player: Player.Black,
+      ),
+      ...rows.map((rowNumber) => generateRow(rowNumber)).toList(),
+      CapturedPieces(
+        player: Player.White,
+      ),
+    ]);
   }
-}
-
-Widget renderBoard() {
-  List<int> rows = List<int>.generate(8, (index) => 8 - index);
-  return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: rows.map((rowNumber) => generateRow(rowNumber)).toList());
 }
 
 Row generateRow(int rowNumber) {

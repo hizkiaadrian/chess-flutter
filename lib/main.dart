@@ -20,15 +20,7 @@ class App extends StatelessWidget {
       create: (_) => GameProvider(),
       builder: (context, child) => MaterialApp(
         title: appTitle,
-        builder: (context, child) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(appTitle),
-              centerTitle: true,
-            ),
-            body: child,
-          );
-        },
+        builder: (context, child) => child,
         initialRoute: Routes.Home,
         routes: Routes.getRoutes(),
         navigatorKey: navigatorKey,
