@@ -46,11 +46,8 @@ class _ChoosePlayerDialogState extends State<ChoosePlayerDialog> {
         Consumer<GameProvider>(
           builder: (context, gameProvider, child) => FlatButton(
               onPressed: () => {
-                    gameProvider.playerColor = chosenPlayer,
-                    Navigator.pushReplacementNamed(
-                      context,
-                      Routes.Game,
-                    )
+                    gameProvider.setPlayerColor(chosenPlayer),
+                    Navigator.pushReplacementNamed(context, Routes.Game)
                   },
               child: Text("Submit")),
         )

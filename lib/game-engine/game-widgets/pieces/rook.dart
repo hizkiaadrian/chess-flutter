@@ -13,7 +13,7 @@ class Rook extends Piece {
       : super(key: key, player: player, pieceName: PieceName.Rook);
 
   @override
-  List<SquareNumber> getAvailableMoves(BoardState boardState) {
+  List<SquareNumber> getValidMoves(BoardState boardState) {
     const rookMoves = [
       [1, 0],
       [-1, 0],

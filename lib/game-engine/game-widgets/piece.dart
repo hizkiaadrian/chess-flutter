@@ -16,7 +16,7 @@ abstract class Piece extends StatelessWidget {
 
   Piece({this.player, this.key, this.pieceName});
 
-  List<SquareNumber> getAvailableMoves(BoardState boardState);
+  List<SquareNumber> getValidMoves(BoardState boardState);
 
   SquareNumber getCurrentPosition(BoardState boardState) =>
       boardState.piecePosition.keys.firstWhere(
@@ -30,12 +30,12 @@ abstract class Piece extends StatelessWidget {
           .contains(getCurrentPosition(gameProvider.boardState));
 
   bool pieceCanBeMoved(GameProvider gameProvider) =>
-      gameProvider.playerTurn == player;
-  // gameProvider.playerTurn == gameProvider.playerColor;
+      gameProvider.playerTurn == player &&
+      gameProvider.playerTurn == gameProvider.playerColor;
 
   List<SquareNumber> getAvailableMovesWithoutExposingCheck(
       BoardState boardState) {
-    return getAvailableMoves(boardState)
+    return getValidMoves(boardState)
         .where((move) =>
             !determineIfCheck(simulateMove(boardState, this, move), player))
         .toList();
@@ -50,8 +50,8 @@ abstract class Piece extends StatelessWidget {
                 gameProvider
                     .movePiece(getCurrentPosition(gameProvider.boardState));
               } else if (pieceCanBeMoved(gameProvider)) {
-                gameProvider.selectedPiece =
-                    gameProvider.selectedPiece == this ? null : this;
+                gameProvider.selectPiece(
+                    gameProvider.selectedPiece == this ? null : this);
               }
             },
             child: getSprite(player, pieceName)));

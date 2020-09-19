@@ -14,7 +14,7 @@ class King extends Piece {
       : super(key: key, player: player, pieceName: PieceName.King);
 
   @override
-  List<SquareNumber> getAvailableMoves(BoardState boardState) {
+  List<SquareNumber> getValidMoves(BoardState boardState) {
     final List<List<int>> kingMoves = [
       [1, 0],
       [1, -1],

@@ -13,7 +13,7 @@ class Queen extends Piece {
       : super(key: key, player: player, pieceName: PieceName.Queen);
 
   @override
-  List<SquareNumber> getAvailableMoves(BoardState boardState) {
+  List<SquareNumber> getValidMoves(BoardState boardState) {
     const queenMoves = [
       [1, 0],
       [1, -1],
