@@ -1,10 +1,10 @@
-import 'package:Chess/game-engine/provider/typedefs/board-state.dart';
-import 'package:Chess/game-engine/provider/handlers/check-handler.dart';
-import 'package:Chess/game-engine/provider/game-provider.dart';
-import 'package:Chess/game-engine/utils/image.dart';
-import 'package:Chess/game-engine/utils/piece.dart';
-import 'package:Chess/game-engine/utils/player.dart';
-import 'package:Chess/game-engine/utils/square.dart';
+import 'package:Chess/game-engine/typedefs/board-state.dart';
+import 'package:Chess/game-engine/handlers/check-handler.dart';
+import 'package:Chess/game-engine/game-provider.dart';
+import 'package:Chess/utils/image.dart';
+import 'package:Chess/utils/piece.dart';
+import 'package:Chess/utils/player.dart';
+import 'package:Chess/utils/square.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,16 +1,16 @@
 import 'package:Chess/constants/routes.dart';
 import 'package:Chess/game-engine/bots/bot.dart';
 import 'package:Chess/game-engine/bots/random-bot.dart';
-import 'package:Chess/game-engine/provider/typedefs/board-state.dart';
-import 'package:Chess/game-engine/provider/handlers/check-handler.dart';
-import 'package:Chess/game-engine/game-widgets/piece.dart';
+import 'package:Chess/game-engine/typedefs/board-state.dart';
+import 'package:Chess/game-engine/handlers/check-handler.dart';
 import 'package:Chess/constants/initial-boardstate.dart';
-import 'package:Chess/game-engine/provider/typedefs/game-mode.dart';
-import 'package:Chess/game-engine/provider/typedefs/move.dart';
-import 'package:Chess/game-engine/provider/handlers/pawn-promotion-handler.dart';
-import 'package:Chess/game-engine/utils/piece.dart';
-import 'package:Chess/game-engine/utils/player.dart';
-import 'package:Chess/game-engine/utils/square.dart';
+import 'package:Chess/game-engine/typedefs/game-mode.dart';
+import 'package:Chess/game-engine/typedefs/move.dart';
+import 'package:Chess/game-engine/handlers/pawn-promotion-handler.dart';
+import 'package:Chess/utils/piece.dart';
+import 'package:Chess/utils/player.dart';
+import 'package:Chess/utils/square.dart';
+import 'package:Chess/screens/game-widgets/piece.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -202,8 +202,4 @@ class GameProvider with ChangeNotifier {
       }
     }
   }
-}
-
-extension ListCleaner on List {
-  void removeAll() => removeWhere((_) => true);
 }

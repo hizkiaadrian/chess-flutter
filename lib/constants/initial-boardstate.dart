@@ -1,12 +1,12 @@
-import 'package:Chess/game-engine/game-widgets/piece.dart';
-import 'package:Chess/game-engine/game-widgets/pieces/bishop.dart';
-import 'package:Chess/game-engine/game-widgets/pieces/king.dart';
-import 'package:Chess/game-engine/game-widgets/pieces/knight.dart';
-import 'package:Chess/game-engine/game-widgets/pieces/pawn.dart';
-import 'package:Chess/game-engine/game-widgets/pieces/queen.dart';
-import 'package:Chess/game-engine/game-widgets/pieces/rook.dart';
-import 'package:Chess/game-engine/utils/player.dart';
-import 'package:Chess/game-engine/utils/square.dart';
+import 'package:Chess/screens/game-widgets/piece.dart';
+import 'package:Chess/screens/game-widgets/pieces/bishop.dart';
+import 'package:Chess/screens/game-widgets/pieces/king.dart';
+import 'package:Chess/screens/game-widgets/pieces/knight.dart';
+import 'package:Chess/screens/game-widgets/pieces/pawn.dart';
+import 'package:Chess/screens/game-widgets/pieces/queen.dart';
+import 'package:Chess/screens/game-widgets/pieces/rook.dart';
+import 'package:Chess/utils/player.dart';
+import 'package:Chess/utils/square.dart';
 import 'package:flutter/material.dart';
 
 Map<SquareNumber, Piece> generateStartingBoard() => {

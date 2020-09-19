@@ -1,10 +1,10 @@
-import 'package:Chess/game-engine/game-widgets/pieces/queen.dart';
-import 'package:Chess/game-engine/provider/typedefs/board-state.dart';
+import 'package:Chess/screens/game-widgets/pieces/queen.dart';
+import 'package:Chess/game-engine/typedefs/board-state.dart';
 import 'package:Chess/game-engine/bots/bot.dart';
-import 'package:Chess/game-engine/game-widgets/piece.dart';
-import 'package:Chess/game-engine/provider/typedefs/move.dart';
-import 'package:Chess/game-engine/utils/player.dart';
-import 'package:Chess/game-engine/utils/square.dart';
+import 'package:Chess/screens/game-widgets/piece.dart';
+import 'package:Chess/game-engine/typedefs/move.dart';
+import 'package:Chess/utils/player.dart';
+import 'package:Chess/utils/square.dart';
 import 'package:flutter/material.dart';
 
 class RandomBot extends Bot {
