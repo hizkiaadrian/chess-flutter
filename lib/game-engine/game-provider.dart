@@ -3,7 +3,7 @@ import 'package:Chess/game-engine/bots/bot.dart';
 import 'package:Chess/game-engine/bots/random-bot.dart';
 import 'package:Chess/game-engine/typedefs/board-state.dart';
 import 'package:Chess/game-engine/handlers/check-handler.dart';
-import 'package:Chess/constants/initial-boardstate.dart';
+import 'package:Chess/game-engine/initial-boardstate.dart';
 import 'package:Chess/game-engine/typedefs/game-mode.dart';
 import 'package:Chess/game-engine/typedefs/move.dart';
 import 'package:Chess/game-engine/handlers/pawn-promotion-handler.dart';
