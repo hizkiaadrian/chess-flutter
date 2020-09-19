@@ -14,9 +14,7 @@ class TurnNotifier extends StatelessWidget {
         padding: EdgeInsets.only(bottom: 10.0),
         child: Text(
           "$whoseTurn turn",
-          style: TextStyle(
-            fontSize: 20.0,
-          ),
+          style: TextStyle(fontSize: 20.0),
         ),
       );
     });

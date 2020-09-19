@@ -8,7 +8,7 @@ import 'package:Chess/game-engine/utils/piece.dart';
 import 'package:Chess/game-engine/utils/player.dart';
 import 'package:Chess/game-engine/utils/square.dart';
 import 'package:Chess/main.dart';
-import 'package:Chess/dialogs/checkmate-dialog.dart';
+import 'package:Chess/dialogs/game-ended-dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -105,17 +105,18 @@ class GameProvider with ChangeNotifier {
 
     selectPiece(null);
 
-    _playerTurn = playerTurn.getOpponent();
-    if (determineIfCheck(_boardState, _playerTurn)) {
+    if (determineIfCheck(_boardState, _playerTurn.getOpponent())) {
       _isCheck = true;
     }
-    if (determineIfCheckmate(_boardState, _playerTurn)) {
+    if (determineIfCheckmate(_boardState, _playerTurn.getOpponent())) {
       await showDialog(
           context: navigatorKey.currentState.overlay.context,
-          builder: (_) => CheckmateDialog(
-                player: _playerTurn.getOpponent(),
+          builder: (_) => GameEndedDialog(
+                winner: _playerTurn,
                 isCheck: _isCheck,
               ));
+    } else {
+      _playerTurn = _playerTurn.getOpponent();
     }
 
     notifyListeners();

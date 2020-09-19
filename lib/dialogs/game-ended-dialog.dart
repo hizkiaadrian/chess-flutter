@@ -5,18 +5,21 @@ import 'package:Chess/game-engine/utils/player.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CheckmateDialog extends StatelessWidget {
-  final Player player;
+class GameEndedDialog extends StatelessWidget {
+  final Player winner;
   final bool isCheck;
 
-  CheckmateDialog({this.player, this.isCheck});
+  GameEndedDialog({this.winner, this.isCheck});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<GameProvider>(
-      builder: (context, gameProvider, child) => AlertDialog(
+    return Consumer<GameProvider>(builder: (context, gameProvider, child) {
+      String dialogContent = isCheck
+          ? "${winner.asString()} wins"
+          : "The game ended in a stalemate";
+      return AlertDialog(
         title: Text(isCheck ? "Checkmate" : "Stalemate"),
-        content: Text(isCheck ? "${player.asString()} wins" : ""),
+        content: Text(dialogContent),
         actions: [
           FlatButton(
             child: Text("Play Again"),
@@ -36,7 +39,7 @@ class CheckmateDialog extends StatelessWidget {
             },
           )
         ],
-      ),
-    );
+      );
+    });
   }
 }
