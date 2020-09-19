@@ -1,4 +1,5 @@
 import 'package:Chess/game-engine/board-state.dart';
+import 'package:Chess/game-engine/check-checker.dart';
 import 'package:Chess/game-engine/game-provider.dart';
 import 'package:Chess/game-engine/utils/image.dart';
 import 'package:Chess/game-engine/utils/piece.dart';
@@ -29,8 +30,16 @@ abstract class Piece extends StatelessWidget {
           .contains(getCurrentPosition(gameProvider.boardState));
 
   bool pieceCanBeMoved(GameProvider gameProvider) =>
-      gameProvider.playerTurn == player &&
-      gameProvider.playerTurn == gameProvider.playerColor;
+      gameProvider.playerTurn == player;
+  // gameProvider.playerTurn == gameProvider.playerColor;
+
+  List<SquareNumber> getAvailableMovesWithoutExposingCheck(
+      BoardState boardState) {
+    return getAvailableMoves(boardState)
+        .where((move) =>
+            !determineIfCheck(simulateMove(boardState, this, move), player))
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
