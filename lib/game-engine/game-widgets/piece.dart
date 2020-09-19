@@ -31,8 +31,7 @@ abstract class Piece extends StatelessWidget {
           .contains(getCurrentPosition(gameProvider.getBoardState()));
 
   bool pieceCanBeMoved(GameProvider gameProvider) =>
-      gameProvider.whoseTurnNow() == gameProvider.getPlayerColor() &&
-      !gameProvider.shouldBotMove();
+      gameProvider.whoseTurnNow() == player && !gameProvider.shouldBotMove();
 
   List<SquareNumber> getLegalMovesPostCheckHandler(BoardState boardState) {
     return getLegalMovesPreCheckHandler(boardState)

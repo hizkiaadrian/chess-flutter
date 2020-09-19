@@ -1,3 +1,4 @@
+import 'package:Chess/dialogs/choose-game-mode.dart';
 import 'package:Chess/dialogs/choose-player.dart';
 import 'package:Chess/dialogs/start-new-game-prompt.dart';
 import 'package:Chess/game-engine/provider/game-provider.dart';
@@ -12,15 +13,18 @@ class StartNewGameButton extends StatelessWidget {
       builder: (context, gameProvider, child) => RaisedButton(
         padding: EdgeInsets.all(15.0),
         child: Text(
-          'Start a new 1P game',
+          'Start a new game',
           style: TextStyle(fontSize: 20.0),
         ),
         onPressed: () async {
-          if (gameProvider.getMovesHistory().isEmpty) {
+          if (gameProvider.getMovesHistory().isEmpty &&
+              await gameModeChosen(context)) {
             showDialog<Player>(context: context, child: ChoosePlayerDialog());
           } else if (await shouldStartNewGame(context)) {
             gameProvider.initializeProviderState();
-            showDialog<Player>(context: context, child: ChoosePlayerDialog());
+            if (await gameModeChosen(context)) {
+              showDialog<Player>(context: context, child: ChoosePlayerDialog());
+            }
           }
         },
       ),
@@ -30,3 +34,6 @@ class StartNewGameButton extends StatelessWidget {
 
 Future<bool> shouldStartNewGame(BuildContext context) async => await showDialog(
     context: context, child: StartNewGamePrompt(), barrierDismissible: false);
+
+Future<bool> gameModeChosen(BuildContext context) async => await showDialog(
+    context: context, child: ChooseGameModeDialog(), barrierDismissible: false);

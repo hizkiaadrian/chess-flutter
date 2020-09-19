@@ -3,6 +3,7 @@ import 'package:Chess/game-engine/provider/typedefs/board-state.dart';
 import 'package:Chess/game-engine/provider/handlers/check-handler.dart';
 import 'package:Chess/game-engine/game-widgets/piece.dart';
 import 'package:Chess/constants/initial-boardstate.dart';
+import 'package:Chess/game-engine/provider/typedefs/game-mode.dart';
 import 'package:Chess/game-engine/provider/typedefs/move.dart';
 import 'package:Chess/game-engine/provider/handlers/pawn-promotion-handler.dart';
 import 'package:Chess/game-engine/utils/piece.dart';
@@ -16,6 +17,7 @@ class GameProvider with ChangeNotifier {
     initializeProviderState();
   }
 
+  GameMode _gameMode;
   BoardState _boardState;
   Player _playerColor;
   Player _playerTurn;
@@ -26,6 +28,7 @@ class GameProvider with ChangeNotifier {
   bool _expectBotMove;
 
   /* Getters */
+  GameMode getGameMode() => _gameMode;
   BoardState getBoardState() => _boardState;
   Map<SquareNumber, Piece> getPiecePositions() => _boardState.piecePosition;
   List<Move> getMovesHistory() => _boardState.movesHistory;
@@ -40,6 +43,7 @@ class GameProvider with ChangeNotifier {
   /* ************************************************************************ */
   /* Initializers */
   void initializeProviderState() => {
+        _gameMode = GameMode.AgainstBot,
         _boardState = BoardState(
             piecePosition: generateStartingBoard(), movesHistory: List<Move>()),
         _playerColor = Player.White,
@@ -51,6 +55,8 @@ class GameProvider with ChangeNotifier {
         _expectBotMove = false,
         notifyListeners()
       };
+
+  void setGameMode(GameMode gameMode) => _gameMode = gameMode;
 
   void setPlayerColorAndStartGame(Player player, BuildContext context) => {
         _playerColor = player,
