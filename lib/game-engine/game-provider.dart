@@ -2,7 +2,7 @@ import 'package:Chess/game-engine/board-state.dart';
 import 'package:Chess/game-engine/check-checker.dart';
 import 'package:Chess/game-engine/game-widgets/piece.dart';
 import 'package:Chess/constants/initial-boardstate.dart';
-import 'package:Chess/game-engine/move-history.dart';
+import 'package:Chess/game-engine/move.dart';
 import 'package:Chess/game-engine/pawn-promotion.dart';
 import 'package:Chess/game-engine/utils/piece.dart';
 import 'package:Chess/game-engine/utils/player.dart';
@@ -14,8 +14,7 @@ import 'package:flutter/material.dart';
 
 class GameProvider with ChangeNotifier {
   BoardState _boardState = BoardState(
-      piecePosition: generateStartingBoard(),
-      movesHistory: List<MoveHistory>());
+      piecePosition: generateStartingBoard(), movesHistory: List<Move>());
   BoardState get boardState => _boardState;
 
   Player _playerColor = Player.White;
@@ -89,7 +88,7 @@ class GameProvider with ChangeNotifier {
     }
 
     _boardState.movesHistory
-        .add(MoveHistory(piece: selectedPiece, destination: destination));
+        .add(Move(piece: selectedPiece, destination: destination));
 
     selectedPiece = null;
 
