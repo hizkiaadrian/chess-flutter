@@ -12,7 +12,7 @@ class StartNewGameButton extends StatelessWidget {
       builder: (context, gameProvider, child) => RaisedButton(
         padding: EdgeInsets.all(15.0),
         child: Text(
-          'Start a new game',
+          'Start a new 1P game',
           style: TextStyle(fontSize: 20.0),
         ),
         onPressed: () async {
