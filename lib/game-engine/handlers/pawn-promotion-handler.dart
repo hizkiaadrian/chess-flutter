@@ -1,6 +1,6 @@
-import 'package:Chess/game-engine/game-widgets/piece.dart';
-import 'package:Chess/dialogs/promotion-dialog.dart';
-import 'package:Chess/game-engine/utils/player.dart';
+import 'package:Chess/screens/game-widgets/piece.dart';
+import 'package:Chess/screens/dialogs/promotion-dialog.dart';
+import 'package:Chess/utils/player.dart';
 import 'package:Chess/main.dart';
 import 'package:flutter/material.dart';
 

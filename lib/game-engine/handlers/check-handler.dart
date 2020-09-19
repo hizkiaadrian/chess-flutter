@@ -1,10 +1,10 @@
-import 'package:Chess/dialogs/game-ended-dialog.dart';
-import 'package:Chess/game-engine/provider/typedefs/board-state.dart';
-import 'package:Chess/game-engine/game-widgets/piece.dart';
-import 'package:Chess/game-engine/provider/typedefs/move.dart';
-import 'package:Chess/game-engine/utils/piece.dart';
-import 'package:Chess/game-engine/utils/player.dart';
-import 'package:Chess/game-engine/utils/square.dart';
+import 'package:Chess/screens/dialogs/game-ended-dialog.dart';
+import 'package:Chess/game-engine/typedefs/board-state.dart';
+import 'package:Chess/screens/game-widgets/piece.dart';
+import 'package:Chess/game-engine/typedefs/move.dart';
+import 'package:Chess/utils/piece.dart';
+import 'package:Chess/utils/player.dart';
+import 'package:Chess/utils/square.dart';
 import 'package:Chess/main.dart';
 import 'package:flutter/material.dart';
 

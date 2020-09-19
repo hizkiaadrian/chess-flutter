@@ -1,6 +1,6 @@
-import 'package:Chess/game-engine/provider/typedefs/board-state.dart';
-import 'package:Chess/game-engine/utils/player.dart';
-import 'package:Chess/game-engine/utils/square.dart';
+import 'package:Chess/game-engine/typedefs/board-state.dart';
+import 'package:Chess/utils/player.dart';
+import 'package:Chess/utils/square.dart';
 
 enum PieceName { Pawn, Knight, Bishop, Rook, Queen, King }
 

@@ -1,5 +1,5 @@
-import 'package:Chess/game-engine/utils/piece.dart';
-import 'package:Chess/game-engine/utils/player.dart';
+import 'package:Chess/utils/piece.dart';
+import 'package:Chess/utils/player.dart';
 import 'package:flutter/material.dart';
 
 Image getSprite(Player player, PieceName pieceName) {

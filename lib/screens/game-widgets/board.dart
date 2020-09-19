@@ -1,8 +1,8 @@
-import 'package:Chess/game-engine/provider/game-provider.dart';
-import 'package:Chess/game-engine/game-widgets/captured-pieces.dart';
-import 'package:Chess/game-engine/game-widgets/square.dart';
-import 'package:Chess/game-engine/utils/player.dart';
-import 'package:Chess/game-engine/utils/square.dart';
+import 'package:Chess/game-engine/game-provider.dart';
+import 'package:Chess/utils/player.dart';
+import 'package:Chess/utils/square.dart';
+import 'package:Chess/screens/game-widgets/captured-pieces.dart';
+import 'package:Chess/screens/game-widgets/square.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
