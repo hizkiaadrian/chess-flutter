@@ -1,5 +1,5 @@
 import 'package:Chess/constants/config.dart';
-import 'package:Chess/game-engine/game-provider.dart';
+import 'package:Chess/game-engine/provider/game-provider.dart';
 import 'package:Chess/game-engine/utils/square.dart';
 import 'package:Chess/main.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +12,9 @@ class Square extends StatelessWidget {
   Square({this.square}) : squareColor = square.determineColor();
 
   bool isSquareSelected(GameProvider gameProvider) =>
-      gameProvider.selectedPiece != null &&
-      gameProvider.selectedPiece ==
-          gameProvider.boardState.piecePosition[square];
+      gameProvider.getSelectedPiece() != null &&
+      gameProvider.getSelectedPiece() ==
+          gameProvider.getPiecePositions()[square];
 
   Border renderBorderIfSelected(GameProvider gameProvider) => Border.all(
         color: isSquareSelected(gameProvider)
@@ -27,7 +27,7 @@ class Square extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<GameProvider>(
       builder: (context, gameProvider, child) => GestureDetector(
-        onTap: () => gameProvider.availableMoves.contains(square)
+        onTap: () => gameProvider.getAvailableMoves().contains(square)
             ? gameProvider.movePiece(square)
             : null,
         child: Stack(
@@ -39,10 +39,9 @@ class Square extends StatelessWidget {
                 border: renderBorderIfSelected(gameProvider),
                 color: squareColor,
               ),
-              child:
-                  gameProvider.boardState.piecePosition[square] ?? Container(),
+              child: gameProvider.getPiecePositions()[square] ?? Container(),
             ),
-            if (gameProvider.availableMoves.contains(square))
+            if (gameProvider.getAvailableMoves().contains(square))
               Container(
                 height: squareSize,
                 width: squareSize,

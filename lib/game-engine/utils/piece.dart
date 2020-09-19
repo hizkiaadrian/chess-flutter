@@ -1,4 +1,4 @@
-import 'package:Chess/game-engine/board-state.dart';
+import 'package:Chess/game-engine/provider/typedefs/board-state.dart';
 import 'package:Chess/game-engine/utils/player.dart';
 import 'package:Chess/game-engine/utils/square.dart';
 

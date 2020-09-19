@@ -14,7 +14,7 @@ class ChessBoard extends StatelessWidget {
     return Consumer<GameProvider>(builder: (context, gameProvider, child) {
       return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         CapturedPieces(player: Player.Black),
-        ...renderBoard(gameProvider.playerColor),
+        ...renderBoard(gameProvider.getPlayerColor()),
         CapturedPieces(player: Player.White),
       ]);
     });

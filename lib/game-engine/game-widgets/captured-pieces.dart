@@ -17,7 +17,8 @@ class CapturedPieces extends StatelessWidget {
           maxHeight: 70.0,
           child: GridView.count(
               crossAxisCount: 10,
-              children: gameProvider.capturedPieces[player]
+              children: gameProvider
+                  .getCapturedPieces()[player]
                   .map((e) => getSprite(player, e.pieceName))
                   .toList()),
         ),

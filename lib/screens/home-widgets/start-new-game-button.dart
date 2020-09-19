@@ -1,6 +1,6 @@
 import 'package:Chess/dialogs/choose-player.dart';
 import 'package:Chess/dialogs/start-new-game-prompt.dart';
-import 'package:Chess/game-engine/game-provider.dart';
+import 'package:Chess/game-engine/provider/game-provider.dart';
 import 'package:Chess/game-engine/utils/player.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,10 +16,10 @@ class StartNewGameButton extends StatelessWidget {
           style: TextStyle(fontSize: 20.0),
         ),
         onPressed: () async {
-          if (gameProvider.boardState.movesHistory.isEmpty) {
+          if (gameProvider.getMovesHistory().isEmpty) {
             showDialog<Player>(context: context, child: ChoosePlayerDialog());
           } else if (await shouldStartNewGame(context)) {
-            gameProvider.restartGame();
+            gameProvider.initializeProviderState();
             showDialog<Player>(context: context, child: ChoosePlayerDialog());
           }
         },
