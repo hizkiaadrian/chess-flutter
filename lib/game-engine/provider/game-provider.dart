@@ -36,7 +36,7 @@ class GameProvider with ChangeNotifier {
   List<SquareNumber> _availableMoves;
   bool _isCheck;
   ValueNotifier _expectBotMove = ValueNotifier(false);
-  Bot _bot = RandomBot();
+  Bot _bot;
 
   /* Getters */
   GameMode getGameMode() => _gameMode;
@@ -66,7 +66,10 @@ class GameProvider with ChangeNotifier {
         notifyListeners()
       };
 
-  void setGameMode(GameMode gameMode) => _gameMode = gameMode;
+  void setGameMode(GameMode gameMode) => {
+        _gameMode = gameMode,
+        _bot = _gameMode == GameMode.AgainstBot ? RandomBot() : null
+      };
 
   void setPlayerColorAndStartGame(Player player, BuildContext context) => {
         _playerColor = player,
