@@ -7,7 +7,7 @@ class CheckNotifier extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<GameProvider>(builder: (context, gameProvider, child) {
       bool showCheckMessage =
-          gameProvider.playerTurn == gameProvider.playerColor &&
+          gameProvider.whoseTurnNow() == gameProvider.getPlayerColor() &&
               gameProvider.isChecked();
 
       return Padding(

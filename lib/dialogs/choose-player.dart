@@ -1,4 +1,3 @@
-import 'package:Chess/constants/routes.dart';
 import 'package:Chess/game-engine/provider/game-provider.dart';
 import 'package:Chess/game-engine/utils/player.dart';
 import 'package:flutter/material.dart';
@@ -46,11 +45,11 @@ class _ChoosePlayerDialogState extends State<ChoosePlayerDialog> {
         Consumer<GameProvider>(
           builder: (context, gameProvider, child) => FlatButton(
               onPressed: () => {
-                    gameProvider.setPlayerColor(chosenPlayer),
-                    Navigator.pushReplacementNamed(context, Routes.Game)
+                    gameProvider.setPlayerColorAndStartGame(
+                        chosenPlayer, context)
                   },
               child: Text("Submit")),
-        )
+        ),
       ],
     );
   }

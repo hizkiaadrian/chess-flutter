@@ -14,10 +14,9 @@ abstract class Bot extends StatelessWidget {
     return Consumer<GameProvider>(
       builder: (context, gameProvider, child) {
         SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-          if (gameProvider.playerTurn ==
-              gameProvider.playerColor.getOpponent()) {
-            Move moveToMake = makeMove(gameProvider.boardState,
-                gameProvider.playerColor.getOpponent());
+          if (gameProvider.shouldBotMove()) {
+            Move moveToMake = makeMove(gameProvider.getBoardState(),
+                gameProvider.getPlayerColor().getOpponent());
             gameProvider.selectPiece(moveToMake.piece);
             gameProvider.movePiece(moveToMake.destination);
           }

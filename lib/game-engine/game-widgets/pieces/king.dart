@@ -1,4 +1,4 @@
-import 'package:Chess/game-engine/board-state.dart';
+import 'package:Chess/game-engine/provider/typedefs/board-state.dart';
 import 'package:Chess/game-engine/utils/piece.dart';
 import 'package:Chess/game-engine/utils/player.dart';
 import 'package:Chess/game-engine/utils/square.dart';
@@ -14,7 +14,7 @@ class King extends Piece {
       : super(key: key, player: player, pieceName: PieceName.King);
 
   @override
-  List<SquareNumber> getValidMoves(BoardState boardState) {
+  List<SquareNumber> getLegalMovesPreCheckHandler(BoardState boardState) {
     final List<List<int>> kingMoves = [
       [1, 0],
       [1, -1],

@@ -1,6 +1,6 @@
-import 'package:Chess/game-engine/board-state.dart';
-import 'package:Chess/game-engine/check-checker.dart';
-import 'package:Chess/game-engine/game-provider.dart';
+import 'package:Chess/game-engine/provider/typedefs/board-state.dart';
+import 'package:Chess/game-engine/provider/handlers/check-handler.dart';
+import 'package:Chess/game-engine/provider/game-provider.dart';
 import 'package:Chess/game-engine/utils/image.dart';
 import 'package:Chess/game-engine/utils/piece.dart';
 import 'package:Chess/game-engine/utils/player.dart';
@@ -16,7 +16,7 @@ abstract class Piece extends StatelessWidget {
 
   Piece({this.player, this.key, this.pieceName});
 
-  List<SquareNumber> getValidMoves(BoardState boardState);
+  List<SquareNumber> getLegalMovesPreCheckHandler(BoardState boardState);
 
   SquareNumber getCurrentPosition(BoardState boardState) =>
       boardState.piecePosition.keys.firstWhere(
@@ -25,17 +25,17 @@ abstract class Piece extends StatelessWidget {
       );
 
   bool pieceWillBeCaptured(GameProvider gameProvider) =>
-      gameProvider.playerTurn == player.getOpponent() &&
-      gameProvider.availableMoves
-          .contains(getCurrentPosition(gameProvider.boardState));
+      gameProvider.whoseTurnNow() == player.getOpponent() &&
+      gameProvider
+          .getAvailableMoves()
+          .contains(getCurrentPosition(gameProvider.getBoardState()));
 
   bool pieceCanBeMoved(GameProvider gameProvider) =>
-      gameProvider.playerTurn == player &&
-      gameProvider.playerTurn == gameProvider.playerColor;
+      gameProvider.whoseTurnNow() == gameProvider.getPlayerColor() &&
+      !gameProvider.shouldBotMove();
 
-  List<SquareNumber> getAvailableMovesWithoutExposingCheck(
-      BoardState boardState) {
-    return getValidMoves(boardState)
+  List<SquareNumber> getLegalMovesPostCheckHandler(BoardState boardState) {
+    return getLegalMovesPreCheckHandler(boardState)
         .where((move) =>
             !determineIfCheck(simulateMove(boardState, this, move), player))
         .toList();
@@ -47,11 +47,11 @@ abstract class Piece extends StatelessWidget {
         builder: (context, gameProvider, child) => GestureDetector(
             onTap: () {
               if (pieceWillBeCaptured(gameProvider)) {
-                gameProvider
-                    .movePiece(getCurrentPosition(gameProvider.boardState));
+                gameProvider.movePiece(
+                    getCurrentPosition(gameProvider.getBoardState()));
               } else if (pieceCanBeMoved(gameProvider)) {
                 gameProvider.selectPiece(
-                    gameProvider.selectedPiece == this ? null : this);
+                    gameProvider.getSelectedPiece() == this ? null : this);
               }
             },
             child: getSprite(player, pieceName)));

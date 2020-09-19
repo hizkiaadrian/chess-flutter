@@ -1,9 +1,12 @@
-import 'package:Chess/game-engine/board-state.dart';
+import 'package:Chess/dialogs/game-ended-dialog.dart';
+import 'package:Chess/game-engine/provider/typedefs/board-state.dart';
 import 'package:Chess/game-engine/game-widgets/piece.dart';
-import 'package:Chess/game-engine/move.dart';
+import 'package:Chess/game-engine/provider/typedefs/move.dart';
 import 'package:Chess/game-engine/utils/piece.dart';
 import 'package:Chess/game-engine/utils/player.dart';
 import 'package:Chess/game-engine/utils/square.dart';
+import 'package:Chess/main.dart';
+import 'package:flutter/material.dart';
 
 bool determineIfCheck(BoardState boardState, Player player) {
   Iterable<Piece> opponentPieces = boardState.piecePosition.values
@@ -12,16 +15,26 @@ bool determineIfCheck(BoardState boardState, Player player) {
   SquareNumber kingPosition = boardState.piecePosition.keys.firstWhere((key) =>
       boardState.piecePosition[key]?.player == player &&
       boardState.piecePosition[key]?.pieceName == PieceName.King);
-  return opponentPieces.any((opponentPiece) =>
-      opponentPiece.getValidMoves(boardState).contains(kingPosition));
+  return opponentPieces.any((opponentPiece) => opponentPiece
+      .getLegalMovesPreCheckHandler(boardState)
+      .contains(kingPosition));
 }
 
-bool determineIfCheckmate(BoardState boardState, Player playerTurn) {
-  Iterable<Piece> ownPieces = boardState.piecePosition.values
-      .where((piece) => piece?.player == playerTurn);
+bool determineIfCheckmate(BoardState boardState, Player player) {
+  Iterable<Piece> ownPieces =
+      boardState.piecePosition.values.where((piece) => piece?.player == player);
 
-  return ownPieces.every((piece) =>
-      piece.getAvailableMovesWithoutExposingCheck(boardState).isEmpty);
+  return ownPieces.every(
+      (piece) => piece.getLegalMovesPostCheckHandler(boardState).isEmpty);
+}
+
+Future showEndGameDialog(Player winner, bool isCheck) async {
+  showDialog(
+      context: navigatorKey.currentState.overlay.context,
+      builder: (_) => GameEndedDialog(
+            winner: winner,
+            isCheck: isCheck,
+          ));
 }
 
 BoardState simulateMove(
