@@ -60,7 +60,8 @@ class GameProvider with ChangeNotifier {
 
   void setPlayerColorAndStartGame(Player player, BuildContext context) => {
         _playerColor = player,
-        _expectBotMove = player == Player.Black,
+        _expectBotMove =
+            _gameMode == GameMode.AgainstBot && player == Player.Black,
         Navigator.pushReplacementNamed(context, Routes.Game),
         notifyListeners(),
       };
@@ -102,7 +103,8 @@ class GameProvider with ChangeNotifier {
       await showEndGameDialog(_playerTurn, _isCheck);
     } else {
       _playerTurn = _playerTurn.getOpponent();
-      _expectBotMove = _playerTurn != _playerColor;
+      _expectBotMove =
+          _gameMode == GameMode.AgainstBot && _playerTurn != _playerColor;
     }
 
     notifyListeners();

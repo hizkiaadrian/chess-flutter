@@ -16,17 +16,17 @@ class ChooseGameModeDialog extends StatelessWidget {
             FlatButton(
                 onPressed: () => {
                       gameProvider.setGameMode(GameMode.AgainstBot),
-                      Navigator.pop(context, true),
+                      Navigator.pop(context, GameMode.AgainstBot),
                     },
                 child: Text("Vs AI")),
             FlatButton(
                 onPressed: () => {
                       gameProvider.setGameMode(GameMode.TwoPlayers),
-                      Navigator.pop(context, true),
+                      Navigator.pop(context, GameMode.TwoPlayers),
                     },
                 child: Text("2 Players")),
             FlatButton(
-              onPressed: () => Navigator.pop(context, false),
+              onPressed: () => Navigator.pop(context, null),
               child: Text("Cancel"),
             ),
           ],
