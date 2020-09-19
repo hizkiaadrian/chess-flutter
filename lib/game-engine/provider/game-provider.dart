@@ -1,4 +1,6 @@
 import 'package:Chess/constants/routes.dart';
+import 'package:Chess/game-engine/bots/bot.dart';
+import 'package:Chess/game-engine/bots/random-bot.dart';
 import 'package:Chess/game-engine/provider/typedefs/board-state.dart';
 import 'package:Chess/game-engine/provider/handlers/check-handler.dart';
 import 'package:Chess/game-engine/game-widgets/piece.dart';
@@ -15,6 +17,14 @@ import 'package:flutter/material.dart';
 class GameProvider with ChangeNotifier {
   GameProvider() {
     initializeProviderState();
+
+    _expectBotMove.addListener(() {
+      if (_expectBotMove.value) {
+        Move botMove = _bot.makeMove(_boardState, _playerColor.getOpponent());
+        selectPiece(botMove.piece);
+        movePiece(botMove.destination);
+      }
+    });
   }
 
   GameMode _gameMode;
@@ -25,7 +35,8 @@ class GameProvider with ChangeNotifier {
   Piece _selectedPiece;
   List<SquareNumber> _availableMoves;
   bool _isCheck;
-  bool _expectBotMove;
+  ValueNotifier _expectBotMove = ValueNotifier(false);
+  Bot _bot = RandomBot();
 
   /* Getters */
   GameMode getGameMode() => _gameMode;
@@ -38,12 +49,11 @@ class GameProvider with ChangeNotifier {
   Piece getSelectedPiece() => _selectedPiece;
   List<SquareNumber> getAvailableMoves() => _availableMoves;
   bool isChecked() => _isCheck;
-  bool shouldBotMove() => _expectBotMove;
+  bool shouldBotMove() => _expectBotMove.value;
 
   /* ************************************************************************ */
   /* Initializers */
   void initializeProviderState() => {
-        _gameMode = GameMode.AgainstBot,
         _boardState = BoardState(
             piecePosition: generateStartingBoard(), movesHistory: List<Move>()),
         _playerColor = Player.White,
@@ -52,7 +62,7 @@ class GameProvider with ChangeNotifier {
         _selectedPiece = null,
         _availableMoves = [],
         _isCheck = false,
-        _expectBotMove = false,
+        _expectBotMove.value = false,
         notifyListeners()
       };
 
@@ -60,7 +70,7 @@ class GameProvider with ChangeNotifier {
 
   void setPlayerColorAndStartGame(Player player, BuildContext context) => {
         _playerColor = player,
-        _expectBotMove =
+        _expectBotMove.value =
             _gameMode == GameMode.AgainstBot && player == Player.Black,
         Navigator.pushReplacementNamed(context, Routes.Game),
         notifyListeners(),
@@ -103,7 +113,7 @@ class GameProvider with ChangeNotifier {
       await showEndGameDialog(_playerTurn, _isCheck);
     } else {
       _playerTurn = _playerTurn.getOpponent();
-      _expectBotMove =
+      _expectBotMove.value =
           _gameMode == GameMode.AgainstBot && _playerTurn != _playerColor;
     }
 
@@ -123,7 +133,6 @@ class GameProvider with ChangeNotifier {
     if (_boardState.piecePosition[destination] != null) {
       _onPieceCaptured(_boardState.piecePosition[destination]);
     } else {
-      // In both en passant and castling, destination square must be empty
       _onEnPassant(prevSquare, destination);
       _onCastling(destination, prevSquare);
     }
@@ -180,8 +189,14 @@ class GameProvider with ChangeNotifier {
     if (_selectedPiece.pieceName == PieceName.Pawn &&
         destination.getRowNumber() ==
             (_selectedPiece.player == Player.White ? 8 : 1)) {
-      _boardState.piecePosition[destination] =
-          await choosePieceForPromotion(_selectedPiece.player);
+      if (_gameMode == GameMode.AgainstBot &&
+          _selectedPiece.player != _playerColor) {
+        _boardState.piecePosition[destination] = _bot.choosePieceForPromotion(
+            _boardState, _playerColor.getOpponent());
+      } else {
+        _boardState.piecePosition[destination] =
+            await choosePieceForPromotion(_selectedPiece.player);
+      }
     }
   }
 }

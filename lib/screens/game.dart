@@ -1,5 +1,4 @@
 import 'package:Chess/constants/config.dart';
-import 'package:Chess/game-engine/bots/random-bot.dart';
 import 'package:Chess/game-engine/game-widgets/board.dart';
 import 'package:Chess/game-engine/game-widgets/check-notifier.dart';
 import 'package:Chess/game-engine/game-widgets/turn-notifier.dart';
@@ -22,7 +21,6 @@ class GameScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            RandomBot(),
             Expanded(child: ChessBoard()),
             CheckNotifier(),
             TurnNotifier(),

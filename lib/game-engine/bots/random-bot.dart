@@ -1,9 +1,11 @@
+import 'package:Chess/game-engine/game-widgets/pieces/queen.dart';
 import 'package:Chess/game-engine/provider/typedefs/board-state.dart';
 import 'package:Chess/game-engine/bots/bot.dart';
 import 'package:Chess/game-engine/game-widgets/piece.dart';
 import 'package:Chess/game-engine/provider/typedefs/move.dart';
 import 'package:Chess/game-engine/utils/player.dart';
 import 'package:Chess/game-engine/utils/square.dart';
+import 'package:flutter/material.dart';
 
 class RandomBot extends Bot {
   Move makeMove(BoardState boardState, Player botColor) {
@@ -19,5 +21,13 @@ class RandomBot extends Bot {
         (piecetoMove.getLegalMovesPostCheckHandler(boardState)..shuffle())
             .first;
     return Move(piece: piecetoMove, destination: destination);
+  }
+
+  @override
+  Piece choosePieceForPromotion(BoardState boardState, Player botColor) {
+    return Queen(
+      player: botColor,
+      key: UniqueKey(),
+    );
   }
 }
