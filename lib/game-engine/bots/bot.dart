@@ -1,8 +1,6 @@
-import 'package:Chess/game-engine/board-state.dart';
-import 'package:Chess/game-engine/game-provider.dart';
-import 'package:Chess/game-engine/game-widgets/piece.dart';
-import 'package:Chess/game-engine/move.dart';
-import 'package:Chess/game-engine/utils/square.dart';
+import 'package:Chess/game-engine/provider/typedefs/board-state.dart';
+import 'package:Chess/game-engine/provider/game-provider.dart';
+import 'package:Chess/game-engine/provider/typedefs/move.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -27,24 +25,5 @@ abstract class Bot extends StatelessWidget {
         return Container();
       },
     );
-  }
-}
-
-class RandomBot extends Bot {
-  Move makeMove(BoardState boardState, Player botColor) {
-    Iterable<Piece> ownPieces = boardState.piecePosition.values
-        .where((piece) => piece?.player == botColor);
-    Piece piecetoMove = (ownPieces
-            .where((piece) => piece
-                .getAvailableMovesWithoutExposingCheck(boardState)
-                .isNotEmpty)
-            .toList()
-              ..shuffle())
-        .first;
-    SquareNumber destination =
-        (piecetoMove.getAvailableMovesWithoutExposingCheck(boardState)
-              ..shuffle())
-            .first;
-    return Move(piece: piecetoMove, destination: destination);
   }
 }

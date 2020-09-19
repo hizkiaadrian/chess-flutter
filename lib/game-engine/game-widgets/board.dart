@@ -1,4 +1,4 @@
-import 'package:Chess/game-engine/game-provider.dart';
+import 'package:Chess/game-engine/provider/game-provider.dart';
 import 'package:Chess/game-engine/game-widgets/captured-pieces.dart';
 import 'package:Chess/game-engine/game-widgets/square.dart';
 import 'package:Chess/game-engine/utils/player.dart';
