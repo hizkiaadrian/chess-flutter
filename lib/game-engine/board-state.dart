@@ -1,10 +1,10 @@
 import 'package:Chess/game-engine/game-widgets/piece.dart';
-import 'package:Chess/game-engine/move-history.dart';
+import 'package:Chess/game-engine/move.dart';
 import 'package:Chess/game-engine/utils/square.dart';
 
 class BoardState {
   Map<SquareNumber, Piece> piecePosition;
-  List<MoveHistory> movesHistory;
+  List<Move> movesHistory;
 
   BoardState({this.piecePosition, this.movesHistory});
 }
