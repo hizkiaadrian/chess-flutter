@@ -1,5 +1,5 @@
 import 'package:Chess/constants/routes.dart';
-import 'package:Chess/game-engine/game-provider.dart';
+import 'package:Chess/game-engine/provider/game-provider.dart';
 import 'package:Chess/game-engine/utils/player.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

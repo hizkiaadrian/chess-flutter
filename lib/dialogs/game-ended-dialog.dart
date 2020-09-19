@@ -1,6 +1,6 @@
 import 'package:Chess/constants/routes.dart';
 import 'package:Chess/dialogs/choose-player.dart';
-import 'package:Chess/game-engine/game-provider.dart';
+import 'package:Chess/game-engine/provider/game-provider.dart';
 import 'package:Chess/game-engine/utils/player.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +24,7 @@ class GameEndedDialog extends StatelessWidget {
           FlatButton(
             child: Text("Play Again"),
             onPressed: () => {
-              gameProvider.restartGame(),
+              gameProvider.initializeProviderState(),
               showDialog(
                   context: context,
                   builder: (_) => ChoosePlayerDialog(),
@@ -34,7 +34,7 @@ class GameEndedDialog extends StatelessWidget {
           FlatButton(
             child: Text("Home"),
             onPressed: () => {
-              gameProvider.restartGame(),
+              gameProvider.initializeProviderState(),
               Navigator.pushReplacementNamed(context, Routes.Home)
             },
           )
