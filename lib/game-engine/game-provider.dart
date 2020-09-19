@@ -13,55 +13,71 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class GameProvider with ChangeNotifier {
-  BoardState _boardState = BoardState(
-      piecePosition: generateStartingBoard(), movesHistory: List<Move>());
+  GameProvider() {
+    initializeProviderState();
+  }
+
+  BoardState _boardState;
   BoardState get boardState => _boardState;
 
-  Player _playerColor = Player.White;
+  Player _playerColor;
   Player get playerColor => _playerColor;
-  set playerColor(Player player) => {
-        _playerColor = player,
-        notifyListeners(),
-      };
 
-  Player _playerTurn = Player.White;
+  Player _playerTurn;
   Player get playerTurn => _playerTurn;
-  set playerTurn(Player player) => {
-        _playerTurn = player,
-        notifyListeners(),
-      };
 
-  Map<Player, List<Piece>> _capturedPieces = {
-    Player.White: [],
-    Player.Black: []
-  };
+  Map<Player, List<Piece>> _capturedPieces;
   Map<Player, List<Piece>> get capturedPieces => _capturedPieces;
 
   Piece _selectedPiece;
   Piece get selectedPiece => _selectedPiece;
-  set selectedPiece(Piece piece) => {
-        _selectedPiece = piece,
-        availableMoves = _selectedPiece == null
-            ? []
-            : _selectedPiece.getAvailableMovesWithoutExposingCheck(_boardState),
+
+  List<SquareNumber> _availableMoves;
+  List<SquareNumber> get availableMoves => _availableMoves;
+
+  bool _isCheck;
+
+  void initializeProviderState() => {
+        _boardState = BoardState(
+            piecePosition: generateStartingBoard(), movesHistory: List<Move>()),
+        _playerColor = Player.White,
+        _playerTurn = Player.White,
+        _capturedPieces = {Player.White: [], Player.Black: []},
+        _selectedPiece = null,
+        _availableMoves = [],
+        _isCheck = false,
+        notifyListeners()
       };
 
-  List<SquareNumber> _availableMoves = [];
-  List<SquareNumber> get availableMoves => _availableMoves;
-  set availableMoves(List<SquareNumber> moves) => {
-        _availableMoves = moves,
+  void restartGame() => {
+        _boardState.piecePosition = generateStartingBoard(),
+        _boardState.movesHistory.removeAll(),
+        _playerColor = Player.White,
+        _playerTurn = Player.White,
+        _capturedPieces.values.forEach((list) => list.removeAll()),
+        _selectedPiece = null,
+        _availableMoves.removeAll(),
+        _isCheck = false,
         notifyListeners(),
       };
 
-  bool _isCheck = false;
-  bool get isCheck => _isCheck;
-  set isCheck(bool check) => {
-        _isCheck = check,
+  bool isChecked() => _isCheck;
+
+  void setPlayerColor(Player player) => {
+        _playerColor = player,
+        notifyListeners(),
+      };
+
+  void selectPiece(Piece piece) => {
+        _selectedPiece = piece,
+        _availableMoves = _selectedPiece == null
+            ? []
+            : _selectedPiece.getAvailableMovesWithoutExposingCheck(_boardState),
         notifyListeners(),
       };
 
   void movePiece(SquareNumber destination) async {
-    isCheck = false;
+    _isCheck = false;
 
     SquareNumber prevSquare = _selectedPiece.getCurrentPosition(_boardState);
 
@@ -87,11 +103,11 @@ class GameProvider with ChangeNotifier {
     _boardState.movesHistory
         .add(Move(piece: selectedPiece, destination: destination));
 
-    selectedPiece = null;
+    selectPiece(null);
 
-    playerTurn = playerTurn.getOpponent();
+    _playerTurn = playerTurn.getOpponent();
     if (determineIfCheck(_boardState, _playerTurn)) {
-      isCheck = true;
+      _isCheck = true;
     }
     if (determineIfCheckmate(_boardState, _playerTurn)) {
       await showDialog(
@@ -152,18 +168,6 @@ class GameProvider with ChangeNotifier {
       _boardState.piecePosition[rookDestination] = rook;
     }
   }
-
-  void restartGame() => {
-        _boardState.piecePosition = generateStartingBoard(),
-        _boardState.movesHistory.removeAll(),
-        _playerColor = Player.White,
-        _playerTurn = Player.White,
-        _capturedPieces.values.forEach((list) => list.removeAll()),
-        _selectedPiece = null,
-        _availableMoves.removeAll(),
-        _isCheck = false,
-        notifyListeners(),
-      };
 }
 
 extension ListCleaner on List {

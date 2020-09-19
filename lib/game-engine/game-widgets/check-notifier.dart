@@ -8,7 +8,7 @@ class CheckNotifier extends StatelessWidget {
     return Consumer<GameProvider>(builder: (context, gameProvider, child) {
       bool showCheckMessage =
           gameProvider.playerTurn == gameProvider.playerColor &&
-              gameProvider.isCheck;
+              gameProvider.isChecked();
 
       return Padding(
         padding: EdgeInsets.only(bottom: 10.0),

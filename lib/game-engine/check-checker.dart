@@ -13,7 +13,7 @@ bool determineIfCheck(BoardState boardState, Player player) {
       boardState.piecePosition[key]?.player == player &&
       boardState.piecePosition[key]?.pieceName == PieceName.King);
   return opponentPieces.any((opponentPiece) =>
-      opponentPiece.getAvailableMoves(boardState).contains(kingPosition));
+      opponentPiece.getValidMoves(boardState).contains(kingPosition));
 }
 
 bool determineIfCheckmate(BoardState boardState, Player playerTurn) {

@@ -13,7 +13,7 @@ class Bishop extends Piece {
       : super(key: key, player: player, pieceName: PieceName.Bishop);
 
   @override
-  List<SquareNumber> getAvailableMoves(BoardState boardState) {
+  List<SquareNumber> getValidMoves(BoardState boardState) {
     final List<List<int>> bishopMoves = [
       [1, 1],
       [1, -1],

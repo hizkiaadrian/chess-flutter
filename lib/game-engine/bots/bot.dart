@@ -20,7 +20,7 @@ abstract class Bot extends StatelessWidget {
               gameProvider.playerColor.getOpponent()) {
             Move moveToMake = makeMove(gameProvider.boardState,
                 gameProvider.playerColor.getOpponent());
-            gameProvider.selectedPiece = moveToMake.piece;
+            gameProvider.selectPiece(moveToMake.piece);
             gameProvider.movePiece(moveToMake.destination);
           }
         });

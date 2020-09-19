@@ -13,7 +13,7 @@ class Pawn extends Piece {
       : super(key: key, player: player, pieceName: PieceName.Pawn);
 
   @override
-  List<SquareNumber> getAvailableMoves(BoardState boardState) {
+  List<SquareNumber> getValidMoves(BoardState boardState) {
     SquareNumber currentPosition = getCurrentPosition(boardState);
 
     return [
