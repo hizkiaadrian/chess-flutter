@@ -20,9 +20,8 @@ bool determineIfCheckmate(BoardState boardState, Player playerTurn) {
   Iterable<Piece> ownPieces = boardState.piecePosition.values
       .where((piece) => piece?.player == playerTurn);
 
-  return !ownPieces.any((piece) => piece.getAvailableMoves(boardState).any(
-      (move) => !determineIfCheck(
-          simulateMove(boardState, piece, move), piece.player)));
+  return ownPieces.every((piece) =>
+      piece.getAvailableMovesWithoutExposingCheck(boardState).isEmpty);
 }
 
 BoardState simulateMove(

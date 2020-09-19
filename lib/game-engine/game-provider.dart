@@ -43,16 +43,13 @@ class GameProvider with ChangeNotifier {
         _selectedPiece = piece,
         availableMoves = _selectedPiece == null
             ? []
-            : _selectedPiece.getAvailableMoves(_boardState),
+            : _selectedPiece.getAvailableMovesWithoutExposingCheck(_boardState),
       };
 
   List<SquareNumber> _availableMoves = [];
   List<SquareNumber> get availableMoves => _availableMoves;
   set availableMoves(List<SquareNumber> moves) => {
-        _availableMoves = moves
-            .where((move) => !determineIfCheck(
-                simulateMove(_boardState, _selectedPiece, move), _playerTurn))
-            .toList(),
+        _availableMoves = moves,
         notifyListeners(),
       };
 
@@ -101,6 +98,7 @@ class GameProvider with ChangeNotifier {
           context: navigatorKey.currentState.overlay.context,
           builder: (_) => CheckmateDialog(
                 player: _playerTurn.getOpponent(),
+                isCheck: _isCheck,
               ));
     }
 
