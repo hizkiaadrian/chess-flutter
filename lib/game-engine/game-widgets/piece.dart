@@ -28,6 +28,10 @@ abstract class Piece extends StatelessWidget {
       gameProvider.availableMoves
           .contains(getCurrentPosition(gameProvider.boardState));
 
+  bool pieceCanBeMoved(GameProvider gameProvider) =>
+      gameProvider.playerTurn == player &&
+      gameProvider.playerTurn == gameProvider.playerColor;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<GameProvider>(
@@ -36,7 +40,7 @@ abstract class Piece extends StatelessWidget {
               if (pieceWillBeCaptured(gameProvider)) {
                 gameProvider
                     .movePiece(getCurrentPosition(gameProvider.boardState));
-              } else if (gameProvider.playerTurn == player) {
+              } else if (pieceCanBeMoved(gameProvider)) {
                 gameProvider.selectedPiece =
                     gameProvider.selectedPiece == this ? null : this;
               }
