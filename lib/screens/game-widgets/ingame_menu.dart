@@ -1,5 +1,4 @@
 import 'package:Chess/game-engine/game-provider.dart';
-import 'package:Chess/utils/square.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +42,7 @@ class _InGameMenuState extends State<InGameMenu>
               titleStyle: TextStyle(fontSize: 16, color: Colors.white),
               onPress: () => gameProvider.getPreviousBoardState() == null
                   ? null
-                  : gameProvider.undoMove(),
+                  : {gameProvider.undoMove(), _animationController.reverse()},
             ),
           ],
           onPress: () {
