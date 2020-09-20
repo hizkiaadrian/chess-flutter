@@ -7,6 +7,7 @@ import 'package:Chess/game-engine/initial-boardstate.dart';
 import 'package:Chess/game-engine/typedefs/game-mode.dart';
 import 'package:Chess/game-engine/typedefs/move.dart';
 import 'package:Chess/game-engine/handlers/pawn-promotion-handler.dart';
+import 'package:Chess/utils/extensions.dart';
 import 'package:Chess/utils/piece.dart';
 import 'package:Chess/utils/player.dart';
 import 'package:Chess/utils/square.dart';
@@ -38,7 +39,7 @@ class GameProvider with ChangeNotifier {
   ValueNotifier _expectBotMove = ValueNotifier(false);
   Bot _bot;
 
-  BoardState _prevBoardState; //For undoing
+  BoardState _prevBoardState;
   Map<Player, List<Piece>> _prevCapturedPieces;
 
   /* Getters */
@@ -60,7 +61,9 @@ class GameProvider with ChangeNotifier {
   /* Initializers */
   void initializeProviderState() => {
         _boardState = BoardState(
-            piecePosition: generateStartingBoard(), movesHistory: List<Move>()),
+          piecePosition: generateStartingBoard(),
+          movesHistory: List<Move>(),
+        ),
         _prevBoardState = null,
         _playerColor = Player.White,
         _playerTurn = Player.White,
@@ -101,9 +104,9 @@ class GameProvider with ChangeNotifier {
   /* Piece movement */
   void movePiece(SquareNumber destination) async {
     _isCheck = false;
-    if (_gameMode == GameMode.AgainstBot && _playerTurn == _playerColor) {
+
+    if (_gameMode == GameMode.AgainstBot && _playerTurn == _playerColor)
       _storePreviousBoardState();
-    }
 
     SquareNumber prevSquare = _selectedPiece.getCurrentPosition(_boardState);
 
@@ -118,52 +121,55 @@ class GameProvider with ChangeNotifier {
 
     deselectPiece();
 
-    if (determineIfCheck(_boardState, _playerTurn.getOpponent())) {
+    if (determineIfCheck(_boardState, _playerTurn.getOpponent()))
       _isCheck = true;
-    }
-    if (determineIfCheckmate(_boardState, _playerTurn.getOpponent())) {
+
+    if (determineIfCheckmate(_boardState, _playerTurn.getOpponent()))
       await showEndGameDialog(_playerTurn, _isCheck);
-    } else {
-      _playerTurn = _playerTurn.getOpponent();
-      _expectBotMove.value =
-          _gameMode == GameMode.AgainstBot && _playerTurn != _playerColor;
-    }
+    else
+      _switchPlayerTurn();
 
     notifyListeners();
   }
 
   void _changePiecePosition(
-      Piece piece, SquareNumber prevSquare, SquareNumber destination) {
-    _boardState.piecePosition[prevSquare] = null;
-    _boardState.piecePosition[destination] = piece;
-  }
+          Piece piece, SquareNumber prevSquare, SquareNumber destination) =>
+      {
+        _boardState.piecePosition[prevSquare] = null,
+        _boardState.piecePosition[destination] = piece,
+      };
+
+  void _switchPlayerTurn() => {
+        _playerTurn = _playerTurn.getOpponent(),
+        _expectBotMove.value =
+            _gameMode == GameMode.AgainstBot && _playerTurn != _playerColor,
+      };
 
   void _storePreviousBoardState() => {
         _prevBoardState = BoardState(
-          piecePosition:
-              Map<SquareNumber, Piece>.from(_boardState.piecePosition),
-          movesHistory: List<Move>.from(_boardState.movesHistory),
+          piecePosition: _boardState.piecePosition.clone(),
+          movesHistory: _boardState.movesHistory.clone(),
         ),
         _prevCapturedPieces = {
-          Player.White: List<Piece>.from(_capturedPieces[Player.White]),
-          Player.Black: List<Piece>.from(_capturedPieces[Player.Black]),
+          Player.White: _capturedPieces[Player.White].clone(),
+          Player.Black: _capturedPieces[Player.Black].clone(),
         }
       };
 
   void undoMove() => {
         _boardState = BoardState(
-          piecePosition:
-              Map<SquareNumber, Piece>.from(_prevBoardState.piecePosition),
-          movesHistory: List<Move>.from(_prevBoardState.movesHistory),
+          piecePosition: _prevBoardState.piecePosition.clone(),
+          movesHistory: _prevBoardState.movesHistory.clone(),
         ),
         _prevBoardState = null,
         _capturedPieces = {
-          Player.White: List<Piece>.from(_prevCapturedPieces[Player.White]),
-          Player.Black: List<Piece>.from(_prevCapturedPieces[Player.Black]),
+          Player.White: _prevCapturedPieces[Player.White].clone(),
+          Player.Black: _prevCapturedPieces[Player.Black].clone(),
         },
         _prevCapturedPieces = null,
-        notifyListeners()
+        notifyListeners(),
       };
+
   /* ************************************************************************ */
   /* Move side effects */
   void _handleMoveSideEffect(
