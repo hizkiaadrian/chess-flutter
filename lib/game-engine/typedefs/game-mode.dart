@@ -1,4 +1,5 @@
 enum GameMode {
   AgainstBot,
-  TwoPlayers,
+  TwoPlayersZenMode,
+  TwoPlayersTimedMode,
 }

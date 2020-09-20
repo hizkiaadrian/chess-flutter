@@ -34,10 +34,17 @@ class StartNewGameButton extends StatelessWidget {
 
   void choosePlayerColorOrStartGame(
       GameMode chosenGameMode, BuildContext context) {
-    if (chosenGameMode == GameMode.AgainstBot)
-      showDialog<Player>(context: context, child: ChoosePlayerDialog());
-    if (chosenGameMode == GameMode.TwoPlayers)
-      Navigator.pushNamed(context, Routes.Game);
+    switch (chosenGameMode) {
+      case GameMode.AgainstBot:
+        showDialog<Player>(context: context, child: ChoosePlayerDialog());
+        break;
+      case GameMode.TwoPlayersZenMode:
+        Navigator.pushNamed(context, Routes.Game);
+        break;
+      case GameMode.TwoPlayersTimedMode:
+        Navigator.pushNamed(context, Routes.Game);
+        break;
+    }
   }
 }
 

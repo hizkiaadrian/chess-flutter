@@ -28,10 +28,16 @@ class ChooseGameModeDialog extends StatelessWidget {
                       Navigator.pop(context, GameMode.AgainstBot),
                     }),
             gameModeButton(
-                displayText: "PvP same device",
+                displayText: "PvP Zen Mode",
                 func: () => {
-                      gameProvider.setGameMode(GameMode.TwoPlayers),
-                      Navigator.pop(context, GameMode.TwoPlayers),
+                      gameProvider.setGameMode(GameMode.TwoPlayersZenMode),
+                      Navigator.pop(context, GameMode.TwoPlayersZenMode),
+                    }),
+            gameModeButton(
+                displayText: "PvP Timed Mode",
+                func: () => {
+                      gameProvider.setGameMode(GameMode.TwoPlayersTimedMode),
+                      Navigator.pop(context, GameMode.TwoPlayersTimedMode),
                     }),
           ],
         ),

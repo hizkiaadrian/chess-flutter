@@ -14,7 +14,9 @@ class TurnNotifier extends StatelessWidget {
             return gameProvider.whoseTurnNow() == gameProvider.getPlayerColor()
                 ? "Your turn"
                 : "Bot is thinking...";
-          case GameMode.TwoPlayers:
+          case GameMode.TwoPlayersZenMode:
+            return "${gameProvider.whoseTurnNow().asString()}'s turn";
+          case GameMode.TwoPlayersTimedMode:
             return "${gameProvider.whoseTurnNow().asString()}'s turn";
           default:
             return "";
