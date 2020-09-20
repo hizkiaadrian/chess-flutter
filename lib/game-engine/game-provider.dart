@@ -29,7 +29,6 @@ class GameProvider with ChangeNotifier {
 
   GameMode _gameMode;
   BoardState _boardState;
-  BoardState _prevBoardState; //For undoing
   Player _playerColor;
   Player _playerTurn;
   Map<Player, List<Piece>> _capturedPieces;
@@ -39,10 +38,12 @@ class GameProvider with ChangeNotifier {
   ValueNotifier _expectBotMove = ValueNotifier(false);
   Bot _bot;
 
+  BoardState _prevBoardState; //For undoing
+  Map<Player, List<Piece>> _prevCapturedPieces;
+
   /* Getters */
   GameMode getGameMode() => _gameMode;
   BoardState getBoardState() => _boardState;
-  BoardState getPreviousBoardState() => _prevBoardState;
   Map<SquareNumber, Piece> getPiecePositions() => _boardState.piecePosition;
   List<Move> getMovesHistory() => _boardState.movesHistory;
   Player getPlayerColor() => _playerColor;
@@ -52,6 +53,8 @@ class GameProvider with ChangeNotifier {
   List<SquareNumber> getAvailableMoves() => _availableMoves;
   bool isChecked() => _isCheck;
   bool shouldBotMove() => _expectBotMove.value;
+
+  BoardState getPreviousBoardState() => _prevBoardState;
 
   /* ************************************************************************ */
   /* Initializers */
@@ -135,9 +138,17 @@ class GameProvider with ChangeNotifier {
     _boardState.piecePosition[destination] = piece;
   }
 
-  void _storePreviousBoardState() => _prevBoardState = BoardState(
-      piecePosition: Map<SquareNumber, Piece>.from(_boardState.piecePosition),
-      movesHistory: List<Move>.from(_boardState.movesHistory));
+  void _storePreviousBoardState() => {
+        _prevBoardState = BoardState(
+          piecePosition:
+              Map<SquareNumber, Piece>.from(_boardState.piecePosition),
+          movesHistory: List<Move>.from(_boardState.movesHistory),
+        ),
+        _prevCapturedPieces = {
+          Player.White: List<Piece>.from(_capturedPieces[Player.White]),
+          Player.Black: List<Piece>.from(_capturedPieces[Player.Black]),
+        }
+      };
 
   void undoMove() => {
         _boardState = BoardState(
@@ -146,6 +157,11 @@ class GameProvider with ChangeNotifier {
           movesHistory: List<Move>.from(_prevBoardState.movesHistory),
         ),
         _prevBoardState = null,
+        _capturedPieces = {
+          Player.White: List<Piece>.from(_prevCapturedPieces[Player.White]),
+          Player.Black: List<Piece>.from(_prevCapturedPieces[Player.Black]),
+        },
+        _prevCapturedPieces = null,
         notifyListeners()
       };
   /* ************************************************************************ */
