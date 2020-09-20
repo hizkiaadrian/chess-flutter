@@ -2,14 +2,18 @@
 
 Welcome! This Flutter app is a simple chess game I created mainly to learn Flutter. Feel free to fork this repository or submit a pull request on this repository.
 
-## v1.1 - Intro of bots
+## v3 - Undo
+
+- Now player can undo move once when playing against AI
+
+## v2 - Bots
 
 - Display captured pieces in game view
 - Player bot that makes random moves
 - Two game modes: Against AI and PvP on same device
 - Choose player color if against AI
 
-## v1.0 - First release
+## v1 - First release
 
 - Implement all of chess rules, including check, castling, en passant, and pawn promotion
 - Add a functionality to start a new game and continue existing game
@@ -18,7 +22,6 @@ Welcome! This Flutter app is a simple chess game I created mainly to learn Flutt
 
 # Future work
 
-- Undo button
 - Timed mode
 - Save game history
 - Persist game data
