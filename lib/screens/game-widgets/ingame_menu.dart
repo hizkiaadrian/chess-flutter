@@ -1,14 +1,16 @@
 import 'package:Chess/game-engine/game-provider.dart';
+import 'package:Chess/utils/square.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class FabMenu extends StatefulWidget {
+class InGameMenu extends StatefulWidget {
   @override
-  _FabMenuState createState() => _FabMenuState();
+  _InGameMenuState createState() => _InGameMenuState();
 }
 
-class _FabMenuState extends State<FabMenu> with SingleTickerProviderStateMixin {
+class _InGameMenuState extends State<InGameMenu>
+    with SingleTickerProviderStateMixin {
   Animation<double> _animation;
   AnimationController _animationController;
 
@@ -34,12 +36,14 @@ class _FabMenuState extends State<FabMenu> with SingleTickerProviderStateMixin {
             Bubble(
               title: "Undo",
               iconColor: Colors.white,
-              bubbleColor: Colors.blue,
+              bubbleColor: gameProvider.getPreviousBoardState() == null
+                  ? Colors.grey
+                  : Colors.blue,
               icon: Icons.undo,
               titleStyle: TextStyle(fontSize: 16, color: Colors.white),
-              onPress: () {
-                print("Undo");
-              },
+              onPress: () => gameProvider.getPreviousBoardState() == null
+                  ? null
+                  : gameProvider.undoMove(),
             ),
           ],
           onPress: () {

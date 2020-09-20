@@ -29,6 +29,7 @@ class GameProvider with ChangeNotifier {
 
   GameMode _gameMode;
   BoardState _boardState;
+  BoardState _prevBoardState; //For undoing
   Player _playerColor;
   Player _playerTurn;
   Map<Player, List<Piece>> _capturedPieces;
@@ -41,6 +42,7 @@ class GameProvider with ChangeNotifier {
   /* Getters */
   GameMode getGameMode() => _gameMode;
   BoardState getBoardState() => _boardState;
+  BoardState getPreviousBoardState() => _prevBoardState;
   Map<SquareNumber, Piece> getPiecePositions() => _boardState.piecePosition;
   List<Move> getMovesHistory() => _boardState.movesHistory;
   Player getPlayerColor() => _playerColor;
@@ -56,6 +58,7 @@ class GameProvider with ChangeNotifier {
   void initializeProviderState() => {
         _boardState = BoardState(
             piecePosition: generateStartingBoard(), movesHistory: List<Move>()),
+        _prevBoardState = null,
         _playerColor = Player.White,
         _playerTurn = Player.White,
         _capturedPieces = {Player.White: [], Player.Black: []},
@@ -95,6 +98,9 @@ class GameProvider with ChangeNotifier {
   /* Piece movement */
   void movePiece(SquareNumber destination) async {
     _isCheck = false;
+    if (_gameMode == GameMode.AgainstBot && _playerTurn == _playerColor) {
+      _storePreviousBoardState();
+    }
 
     SquareNumber prevSquare = _selectedPiece.getCurrentPosition(_boardState);
 
@@ -129,6 +135,19 @@ class GameProvider with ChangeNotifier {
     _boardState.piecePosition[destination] = piece;
   }
 
+  void _storePreviousBoardState() => _prevBoardState = BoardState(
+      piecePosition: Map<SquareNumber, Piece>.from(_boardState.piecePosition),
+      movesHistory: List<Move>.from(_boardState.movesHistory));
+
+  void undoMove() => {
+        _boardState = BoardState(
+          piecePosition:
+              Map<SquareNumber, Piece>.from(_prevBoardState.piecePosition),
+          movesHistory: List<Move>.from(_prevBoardState.movesHistory),
+        ),
+        _prevBoardState = null,
+        notifyListeners()
+      };
   /* ************************************************************************ */
   /* Move side effects */
   void _handleMoveSideEffect(
