@@ -1,7 +1,7 @@
 import 'package:Chess/constants/config.dart';
 import 'package:Chess/screens/game-widgets/board.dart';
 import 'package:Chess/screens/game-widgets/check-notifier.dart';
-import 'package:Chess/screens/game-widgets/fab_menu.dart';
+import 'package:Chess/screens/game-widgets/ingame_menu.dart';
 import 'package:Chess/screens/game-widgets/turn-notifier.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +28,7 @@ class GameScreen extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FabMenu(),
+      floatingActionButton: InGameMenu(),
     );
   }
 }
